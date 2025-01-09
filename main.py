@@ -2,12 +2,6 @@ import ptbot
 import os
 from dotenv import load_dotenv
 from pytimeparse import parse
-load_dotenv()
-
-
-TG_TOKEN = os.getenv("TG_TOKEN")
-TG_CHAT_ID = os.getenv("TG_CHAT_ID")
-BOT = ptbot.Bot(TG_TOKEN)
 
 
 def wait(TG_CHAT_ID, question):
@@ -42,4 +36,8 @@ def main():
 
 
 if __name__ == '__main__':
+    load_dotenv()
+    TG_TOKEN = os.getenv("TG_TOKEN")
+    TG_CHAT_ID = os.getenv("TG_CHAT_ID")
+    BOT = ptbot.Bot(TG_TOKEN)
     main()
