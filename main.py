@@ -7,18 +7,19 @@ from pytimeparse import parse
 load_dotenv()
 TG_TOKEN = os.getenv("TG_TOKEN")
 TG_CHAT_ID = os.getenv("TG_CHAT_ID")
-bot = ptbot.Bot(TG_TOKEN)
+BOT = ptbot.Bot(TG_TOKEN)
 
 
 def wait(TG_CHAT_ID, question):
+    BOT.send_message(TG_CHAT_ID, "Бот запущен")
     time = parse(question)
-    message_id = bot.send_message(TG_CHAT_ID, "Таймер запущен на {} секунд\n{}".format(time, render_progressbar(time, 0)))
-    bot.create_countdown(time, notify_progress, mid=message_id, timer=time)
-    bot.create_timer(time, message_func)
+    message_id = BOT.send_message(TG_CHAT_ID, "Таймер запущен на {} секунд\n{}".format(time, render_progressbar(time, 0)))
+    BOT.create_countdown(time, notify_progress, mid=message_id, timer=time)
+    BOT.create_timer(time, message_func)
 
 
 def notify_progress(secs_left, mid, timer):
-    bot.update_message(TG_CHAT_ID, mid, "Осталось {} секунд\n{}".format(secs_left, render_progressbar(timer, timer-secs_left)))
+    BOT.update_message(TG_CHAT_ID, mid, "Осталось {} секунд\n{}".format(secs_left, render_progressbar(timer, timer-secs_left)))
 
 
 def render_progressbar(total, iteration, prefix='', suffix='', length=30, fill='█', zfill='░'):
@@ -31,13 +32,13 @@ def render_progressbar(total, iteration, prefix='', suffix='', length=30, fill='
 
 
 def message_func():
-    bot.send_message(TG_CHAT_ID, "Время вышло")
+    BOT.send_message(TG_CHAT_ID, "Время вышло")
 
 
 def main():
-    bot.send_message(TG_CHAT_ID, "На сколько запустить таймер?")
-    bot.reply_on_message(wait)
-    bot.run_bot()
+    BOT.send_message(TG_CHAT_ID, "На сколько запустить таймер?")
+    BOT.reply_on_message(wait)
+    BOT.run_bot()
 
 
 if __name__ == '__main__':
