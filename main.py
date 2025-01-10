@@ -30,14 +30,15 @@ def message_func():
 
 
 def main():
+    load_dotenv()
+    global bot, tg_chat_id
+    tg_token = os.getenv("TG_TOKEN")
+    tg_chat_id = os.getenv("TG_CHAT_ID")
+    bot = ptbot.Bot(tg_token)
     bot.send_message(tg_chat_id, "На сколько запустить таймер?")
     bot.reply_on_message(wait)
     bot.run_bot()
 
 
 if __name__ == '__main__':
-    load_dotenv()
-    tg_token = os.getenv("TG_TOKEN")
-    tg_chat_id = os.getenv("TG_CHAT_ID")
-    bot = ptbot.Bot(tg_token)
     main()
