@@ -4,9 +4,9 @@ from dotenv import load_dotenv
 from pytimeparse import parse
 
 
-def wait(bot, tg_chat_id, question):
+def wait(bot, tg_chat_id, msg):
     bot.send_message(tg_chat_id, "Бот запущен")
-    time = parse(question)
+    time = parse(msg)
     message_id = bot.send_message(tg_chat_id, "Таймер запущен на {} секунд\n{}".format(time, render_progressbar(time, 0)))
     bot.create_countdown(time, notify_progress, mid=message_id, timer=time, tg_chat_id=tg_chat_id)
     bot.create_timer(time, message_func, tg_chat_id=tg_chat_id)
@@ -34,7 +34,7 @@ def main():
     tg_chat_id = os.getenv("TG_CHAT_ID")
     bot = ptbot.Bot(tg_token)
     bot.send_message(tg_chat_id, "На сколько запустить таймер?")
-    bot.reply_on_message(wait)
+    bot.reply_on_message(lambda msg: wait(bot, tg_chat_id, msg))
     bot.run_bot()
 
 
